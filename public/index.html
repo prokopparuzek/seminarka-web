@@ -1,3 +1,29 @@
+<style>
+.btn-group button {
+  background-color: blue; /* Green background */
+  border: 1px solid blue; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #000099;
+}
+</style>
 <head>
     <title>Terárko</title>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -16,7 +42,13 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
+  <div class="btn-group">
+  <button onclick="plotBME280()">BME280</button>
+  <button onclick="plotDS18B20()">DS18B20</button>
+  <button onclick="plotDHT11()">DHT11</button>
+</div>
     <div id="graph"></div>
-    <div id="graph-stamp"></div>
     <script src="./plot.js"></script>
+    <!-- default chart -->
+    <script>plotBME280()</script>
 </body>
