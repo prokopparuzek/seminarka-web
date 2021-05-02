@@ -166,7 +166,7 @@ function plotDHT11() {
             },
             ];
             layout = {
-                title: 'Hodnoty z terária',
+                title: 'Hodnoty mimo terárium',
                 showlegend: true,
                 xaxis: {
                     title: 'čas',
