@@ -20,7 +20,9 @@ function plotBME280() {
         var cur = db.collection('terarko:BME280');
         cur = cur.orderBy('timestamp').limitToLast(192);
         var x = [];
-        var y = [];
+        var temp = [];
+        var hum = [];
+        var press = [];
         var temp;
         var layout;
         var config;
@@ -29,28 +31,64 @@ function plotBME280() {
                 var date = new Date(doc.data().timestamp * 1000)
                 date.setMinutes(date.getMinutes()-date.getTimezoneOffset())
                 x.push(date.toISOString())
-                y.push(doc.data().temperature);
+                temp.push(doc.data().temperature);
+                hum.push(doc.data().humidity);
+                press.push(doc.data().pressure);
             });
-            temp = {
+            temp = [
+            {
                 type: "Scattergl",
                 mode: "lines",
                 name: 'teplota',
                 x: x,
-                y: y
-            };
+                y: temp
+            },
+            {
+                type: "Scattergl",
+                mode: "lines",
+                name: 'vlhkost',
+                yaxis: 'y2',
+                x: x,
+                y: hum
+            },
+            {
+                type: "Scattergl",
+                mode: "lines",
+                name: 'tlak',
+                yaxis: 'y3',
+                x: x,
+                y: press
+            }
+            ];
             layout = {
-                title: 'Teplota',
+                title: 'Hodnoty z terária',
                 showlegend: true,
                 xaxis: {
                     title: 'čas',
                 },
-                yaxis: {
-                    title: 'teplota'
+/*
+                grid: {
+                    rows: 3,
+                    columns: 1,
+                    subplots: [['xy'], ['xy2'], ['xy3']]
                 }
+*/
+                yaxis: {
+                    title: 'teplota',
+					domain: [0, 0.33]
+                },
+                yaxis2: {
+                    title: 'vlhkost',
+					domain: [0.33, 0.66]
+                },
+                yaxis3: {
+                    title: 'tlak',
+					domain: [0.66, 1]
+                },
             };
             config = {
             };
-            Plotly.newPlot('graph-stamp', [temp], layout, config);
+            Plotly.newPlot('graph', temp, layout, config);
         });
     }
 }
